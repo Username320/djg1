@@ -17,11 +17,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from first_app import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index_page),
     path('time/', views.time_page),
     path('calc/', views.calc_page),
     path('expression/', views.expression_page),
-    path('history/', views.history_page)
-]
+    path('history/', views.history_page),
+    path('str2words/', views.word_page),
+    path('str_history/', views.word_history_page),
+    path('login/', auth_views.LoginView.as_view()),
+    path('logout/', views.logout_view),
+    ]

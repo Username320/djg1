@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <table border="1px">
+    <tr>
+        <th>Количество слов</th>
+        <th>Количество чисел</th>
+        <th>Список слов</th>
+        <th>Список чисел</th>
+        <th>Пользователь</th>
+    </tr>
+    {% for item in history %}
+    <tr>
+        <td> {{ item.wordCount }}</td>
+        <td> {{ item.numCount }}</td>
+        <td> {{ item.wordArr }}</td>
+        <td> {{ item.numArr }}</td>
+        <td> {{ item.user }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

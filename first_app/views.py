@@ -1,7 +1,11 @@
+import django.contrib.auth
 from django.shortcuts import render
 from datetime import datetime
 from first_app import models
 import random
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
 def index_page(request):
     context = {
         "name": "00"
@@ -55,3 +59,46 @@ def history_page(request):
         "comment_history": expression_history
     }
     return render(request, "history.html", context)
+@login_required
+def word_page(request):
+    if "string" in request.POST:
+        text = request.POST["string"]
+        text = list(map(str, text.split()))
+        warr = ""
+        narr = ""
+        nw = 0
+        nd = 0
+        for x in text:
+            if x.isdigit():
+                narr += " " + x
+                nw += 1
+            if x.isalpha():
+                warr += " " + x
+                nd += 1
+        print(text)
+        row = models.WordHistory(
+            wordCount=nw,
+            numCount=nd,
+            wordArr=warr,
+            numArr=narr,
+            user = request.user
+        )
+        row.save()
+    history = models.WordHistory.objects.all()
+    context = {
+        "history": history
+    }
+    return render(request, "str2words.html", context)
+
+def word_history_page(request):
+
+    history = models.WordHistory.objects.all()
+    context = {
+        "history": history
+    }
+    return render(request, "str_history.html", context)
+
+
+def logout_view(request):
+    django.contrib.auth.logout(request)
+    return redirect('/')

@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <table border="1px">
+    <tr>
+        <th>Выражение</th>
+        <th>Результат</th>
+    </tr>
+    {% for item in comment_history %}
+    <tr>
+        <td> {{ item.expression }}</td>
+        <td> {{ item.result }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
