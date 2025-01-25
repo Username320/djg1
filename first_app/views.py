@@ -5,6 +5,8 @@ from first_app import models
 import random
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 def index_page(request):
     context = {
@@ -59,7 +61,7 @@ def history_page(request):
         "comment_history": expression_history
     }
     return render(request, "history.html", context)
-@login_required
+
 def word_page(request):
     if "string" in request.POST:
         text = request.POST["string"]
@@ -102,3 +104,22 @@ def word_history_page(request):
 def logout_view(request):
     django.contrib.auth.logout(request)
     return redirect('/')
+@csrf_exempt
+def clicker_page(request):
+    last = models.ClickerSave.objects.all().order_by("-date")[0]
+    context = {
+        "hp": last.hp,
+        "iq": last.iq,
+        "happiness": last.happiness
+               }
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        clicker = models.ClickerSave(
+            hp=data["hp"],
+            iq=data["iq"],
+            happiness=data["happiness"],
+            date=datetime.now()
+        )
+        clicker.save()
+    return render(request, "clicker.html", context)

@@ -13,3 +13,8 @@ class WordHistory(models.Model):
     wordArr = models.CharField(max_length=500)
     numArr = models.CharField(max_length=500)
     user = models.CharField(max_length=100)
+class ClickerSave(models.Model):
+    hp = models.IntegerField()
+    iq = models.IntegerField()
+    happiness = models.IntegerField()
+    date = models.DateTimeField()

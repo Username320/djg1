@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="card-header">Кликер</div>
+    <button type="button" class="btn btn-primary btn-block" onclick="hppl();">Поесть</button>
+    <button type="button" class="btn btn-primary btn-block" onclick="iqpl();">Поучиться</button>
+    <button type="button" class="btn btn-primary btn-block" onclick="happl();">Поспать</button>
+    <button type="button" class="btn btn-primary btn-block" onclick="allpl();">Сделать всё хорошо</button>
+
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-block" onclick="send();">Отправить</button>
+
+    <script>
+        let hp = {{ hp }};
+        let iq = {{ iq }};
+        let happiness = {{ happiness }};
+        function hppl(){ hp = hp + 4; console.log(hp); }
+        function iqpl() { iq = iq + 6; console.log(iq); }
+        function happl() { happiness = happiness + 3; console.log(happiness); }
+        function allpl() {
+          hp = hp + 4;
+          iq = iq + 4;
+          happiness = happiness + 4;
+        }
+        function send(){
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/clicker/", true);
+          xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+          var j = {
+            "hp": hp,
+            "iq": iq,
+            "happiness": happiness,
+          };
+          xhr.send(JSON.stringify(j));
+          console.log(JSON.stringify(j))
+        }
+    </script>
+{% endblock %}

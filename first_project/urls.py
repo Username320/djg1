@@ -29,4 +29,5 @@ urlpatterns = [
     path('str_history/', views.word_history_page),
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', views.logout_view),
+    path('clicker/', views.clicker_page)
     ]
